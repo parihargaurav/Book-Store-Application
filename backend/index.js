@@ -1,49 +1,31 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
-import  bookRouter  from "./routes/booksRoute.js";
+import bookRouter from "./routes/booksRoute.js";
+import authRouter from "./routes/authRoute.js";
+import "dotenv/config";
+import "./models/db.js"; // ✅ FIXED
 
 const app = express();
-// express js is used for creating https routes
-
-
-
 
 // Middleware for parsing request body
 app.use(express.json());
 
-
-
-// Middleware for handling CORS POLICY
-// Option 1: Allow All Origins with Default of cors(*)
+// Middleware for handling CORS
 app.use(cors());
-// Option 2: Allow Custom Origins
-// app.use(
-//   cors({
-//     origin: 'http://localhost:5000',
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     allowedHeaders: ['Content-Type'],
-//   })
-// );
 
-
-// calback function
+// Test route
 app.get("/", (req, res) => {
   res.send("Hello from backend");
 });
 
-// books api middleware
+// Auth routes
+app.use("/api/auth", authRouter);
+
+// Book routes
 app.use("/api/books", bookRouter);
 
+const PORT = process.env.PORT;
 
-mongoose
-  .connect("mongodb://127.0.0.1:27017/bookstore")
-  .then(() => {
-    console.log("Connected to database");
-    app.listen(5000, () => {
-      console.log("Server is running on http://localhost:5000");
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
