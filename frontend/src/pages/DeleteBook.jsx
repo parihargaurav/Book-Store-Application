@@ -11,22 +11,57 @@ const DeleteBook = () => {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleDeleteBook = () => {
-    setLoading(true);
-    axios
-      .delete(`http://localhost:5000/api/books/${id}`)
-      .then(() => {
-        setLoading(false);
-        enqueueSnackbar('Book Deleted successfully', { variant: 'success' });
-        navigate('/');
-      })
-      .catch((error) => {
-        setLoading(false);
-        // alert('An error happened. Please Chack console');
-        enqueueSnackbar('Error', { variant: 'error' });
-        console.log(error);
-      });
-  };
+ const handleDeleteBook = () => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    enqueueSnackbar('Please login to continue', { variant: 'warning' });
+    navigate('/login');
+    return;
+  }
+
+  setLoading(true);
+
+  axios
+    .delete(`http://localhost:5000/api/books/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(() => {
+      enqueueSnackbar('Book deleted successfully', { variant: 'success' });
+      navigate('/');
+    })
+    .catch((error) => {
+      const status = error?.response?.status;
+      const message = error?.response?.data?.message;
+
+      // 🔐 Auth related errors
+      if (status === 401) {
+        enqueueSnackbar('Session expired. Please login again.', {
+          variant: 'warning',
+        });
+        localStorage.clear();
+        navigate('/login');
+      } 
+      // 🚫 Permission error
+      else if (status === 403) {
+        enqueueSnackbar('You are not allowed to delete this book', {
+          variant: 'error',
+        });
+      } 
+      // ❌ Other errors
+      else {
+        enqueueSnackbar(message || 'Something went wrong. Try again.', {
+          variant: 'error',
+        });
+      }
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+};
+
   
   return (
     <div className='p-4'>

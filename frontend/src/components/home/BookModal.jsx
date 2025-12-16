@@ -5,38 +5,68 @@ import { BiUserCircle } from 'react-icons/bi';
 const BookModal = ({ book, onClose }) => {
   return (
     <div
-      className='fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center'
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        onClick={(event) => event.stopPropagation()}
-        className='w-[600px] max-w-full h-[400px] bg-white rounded-xl p-4 flex flex-col relative'
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-[650px] max-w-[90%] bg-white rounded-2xl shadow-2xl p-6 animate-scaleIn"
       >
-        <AiOutlineClose
-          className='absolute right-6 top-6 text-3xl text-red-600 cursor-pointer'
+        {/* Close Button */}
+        <button
           onClick={onClose}
-        />
-        <h2 className='w-fit px-4 py-1 bg-red-300 rounded-lg'>
-          {book.publishYear}
-        </h2>
-        <h4 className='my-2 text-gray-500'>{book._id}</h4>
-        <div className='flex justify-start items-center gap-x-2'>
-          <PiBookOpenTextLight className='text-red-300 text-2xl' />
-          <h2 className='my-1'>{book.title}</h2>
+          className="absolute top-4 right-4 text-gray-400 hover:text-red-600 transition"
+        >
+          <AiOutlineClose className="text-2xl" />
+        </button>
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <span className="px-3 py-1 text-sm font-medium bg-red-100 text-red-600 rounded-full">
+            Published: {book.publishYear}
+          </span>
         </div>
-        <div className='flex justify-start items-center gap-x-2'>
-          <BiUserCircle className='text-red-300 text-2xl' />
-          <h2 className='my-1'>{book.author}</h2>
+
+        {/* Title */}
+        <div className="flex items-center gap-2 mt-2">
+          <PiBookOpenTextLight className="text-3xl text-sky-500" />
+          <h2 className="text-2xl font-semibold text-gray-800">
+            {book.title}
+          </h2>
         </div>
-        <p className='mt-4'>Anything You want to show</p>
-        <p className='my-2'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni quia
-          voluptatum sint. Nisi impedit libero eveniet cum vitae qui expedita
-          necessitatibus assumenda laboriosam, facilis iste cumque a pariatur
-          nesciunt cupiditate voluptas? Quis atque earum voluptate dolor nisi
-          dolorum est? Deserunt placeat cumque quo dicta architecto, dolore
-          vitae voluptate sequi repellat!
-        </p>
+
+        {/* Author */}
+        <div className="flex items-center gap-2 mt-2">
+          <BiUserCircle className="text-3xl text-green-500" />
+          <p className="text-lg text-gray-600">{book.author}</p>
+        </div>
+
+        {/* Divider */}
+        <hr className="my-4 border-gray-200" />
+
+        {/* Metadata */}
+        <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
+          <div>
+            <span className="font-medium text-gray-800">Book ID</span>
+            <p className="truncate">{book._id}</p>
+          </div>
+          <div>
+            <span className="font-medium text-gray-800">Price</span>
+            <p className="text-sky-600 font-semibold">₹ {book.price}</p>
+          </div>
+        </div>
+
+        {/* Description */}
+        <div className="mt-5">
+          <h3 className="text-lg font-semibold text-gray-800 mb-1">
+            Description
+          </h3>
+          <p className="text-gray-600 leading-relaxed text-sm">
+            This book provides detailed insights and valuable information
+            related to its subject. It is carefully written to ensure clarity,
+            usefulness, and readability for all audiences.
+          </p>
+        </div>
       </div>
     </div>
   );

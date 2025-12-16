@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import{ useState } from 'react';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import axios from 'axios';
@@ -15,27 +15,41 @@ const CreateBooks = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
-    const data = {
-      title,
-      author,
-      publishYear,
-      price: Math.floor(Math.random() * 100),
-    };
-    setLoading(true);
-    axios
-      .post('http://localhost:5000/api/books', data)
-      .then(() => {
-        setLoading(false);
-        enqueueSnackbar('Book Created successfully', { variant: 'success' });
-        navigate('/');
-      })
-      .catch((error) => {
-        setLoading(false);
-        // alert('An error happened. Please Chack console');
-        enqueueSnackbar('Error', { variant: 'error' });
-        console.log(error);
-      });
+  const data = {
+    title,
+    author,
+    publishYear,
+    price,
   };
+
+  const token = localStorage.getItem("token"); // 🔑 get JWT
+
+  setLoading(true);
+  axios
+    .post(
+      "http://localhost:5000/api/books/",
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // 🔐 REQUIRED
+        },
+      }
+    )
+    .then(() => {
+      setLoading(false);
+      enqueueSnackbar("Book Created successfully", { variant: "success" });
+      navigate("/");
+    })
+    .catch((error) => {
+      setLoading(false);
+      enqueueSnackbar(
+        error.response?.data?.message || "Unauthorized",
+        { variant: "error" }
+      );
+      console.log(error);
+    });
+};
+
 
   return (
     <div className='p-4'>

@@ -1,64 +1,77 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 
 const ShowBook = () => {
-  const [book, setBook] = useState({});
+  const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`http://localhost:5000/api/books/${id}`)
-      .then((response) => {
+    const fetchBook = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `http://localhost:5000/api/books/${id}`
+        );
         setBook(response.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchBook();
   }, [id]);
 
-  return (
-    <div className='p-4'>
-      <BackButton />
-      <h1 className='text-3xl my-4'>Show Book</h1>
-      {loading ? (
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-50">
         <Spinner />
-      ) : (
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Id</span>
-            <span>{book._id}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-orange-50 px-4 py-6">
+      <div className="max-w-3xl mx-auto">
+        <BackButton />
+
+        <h1 className="text-3xl font-semibold text-gray-800 my-6">
+          Book Details
+        </h1>
+
+        {book && (
+          <div className="bg-white shadow-md rounded-xl p-6 space-y-4">
+            <DetailRow label="Book ID" value={book._id} />
+            <DetailRow label="Title" value={book.title} />
+            <DetailRow label="Author" value={book.author} />
+            <DetailRow label="Publish Year" value={book.publishYear} />
+            <DetailRow
+              label="Created At"
+              value={new Date(book.createdAt).toLocaleString()}
+            />
+            <DetailRow
+              label="Last Updated"
+              value={new Date(book.updatedAt).toLocaleString()}
+            />
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Title</span>
-            <span>{book.title}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Author</span>
-            <span>{book.author}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Publish Year</span>
-            <span>{book.publishYear}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Create Time</span>
-            <span>{new Date(book.createdAt).toString()}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Last Update Time</span>
-            <span>{new Date(book.updatedAt).toString()}</span>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
+
+const DetailRow = ({ label, value }) => (
+  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6">
+    <span className="text-sm font-medium text-gray-500 w-40">
+      {label}
+    </span>
+    <span className="text-gray-800 break-all">{value}</span>
+  </div>
+);
 
 export default ShowBook;
