@@ -61,21 +61,21 @@ const BooksTable = ({ books }) => {
                   <ActionIcon
                     to={`/books/details/${book._id}`}
                     icon={<BsInfoCircle />}
-                    color="text-green-600"
+                    color=" !text-green-600"
                     label="View"
                   />
 
                   <ActionIcon
                     to={`/books/edit/${book._id}`}
                     icon={<AiOutlineEdit />}
-                    color="text-yellow-500"
+                    color="!text-yellow-500"
                     label="Edit"
                   />
 
                   <ActionIcon
                     to={`/books/delete/${book._id}`}
                     icon={<MdOutlineDelete />}
-                    color="text-red-500"
+                    color="!text-red-500"
                     label="Delete"
                   />
                 </div>

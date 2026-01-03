@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import BackButton from '../components/BackButton';
-import Spinner from '../components/Spinner';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import BackButton from "../components/BackButton";
+import Spinner from "../components/Spinner";
 
 const ShowBook = () => {
   const [book, setBook] = useState(null);
@@ -36,11 +36,11 @@ const ShowBook = () => {
   }
 
   return (
-    <div className="min-h-screen bg-orange-50 px-4 py-6">
+    <div className="min-h-screen px-40  mr-60">
       <div className="max-w-3xl mx-auto">
         <BackButton />
 
-        <h1 className="text-3xl font-semibold text-gray-800 my-6">
+        <h1 className="my-6 px-4 sm:px-8 lg:px-40 text-4xl font-bold tracking-tight text-gray-900">
           Book Details
         </h1>
 
@@ -67,9 +67,7 @@ const ShowBook = () => {
 
 const DetailRow = ({ label, value }) => (
   <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6">
-    <span className="text-sm font-medium text-gray-500 w-40">
-      {label}
-    </span>
+    <span className="text-sm font-medium text-gray-500 w-40">{label}</span>
     <span className="text-gray-800 break-all">{value}</span>
   </div>
 );

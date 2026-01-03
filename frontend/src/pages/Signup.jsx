@@ -61,11 +61,11 @@ function Signup() {
   };
 
  return (
-  <div className="min-h-screen flex items-center justify-center bg-gray-100 px-50 mx-3.5">
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 animate-fade-in">
+  <div className="min-h-screen flex items-center justify-center  px-50 mx-60">
+    <div className="w-full max-w-md bg-yellow-50 rounded-2xl shadow-lg p-8 animate-fade-in">
     
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-        Create Account
+        Create Account 🙋‍♂️
       </h1>
 
       <form onSubmit={handleSignup} className="space-y-4">

@@ -64,9 +64,9 @@ const Home = () => {
   };
 
   return (
-    <div className='p-4'>
+    <div className='min-h-screen px-20 mx-80 pt-20'>
       <div className='flex justify-between items-center mb-4'>
-        <h1 className='text-xl font-semibold'>
+        <h1 className='text-4xl font-bold tracking-wide text-slate-100'>
           Welcome, {loggedInUser}
         </h1>
         <button
@@ -79,13 +79,13 @@ const Home = () => {
 
       <div className='flex justify-center gap-x-4 mb-6'>
         <button
-          className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
+          className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg text-white'
           onClick={() => setShowType('table')}
         >
           Table
         </button>
         <button
-          className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
+          className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg text-white'
           onClick={() => setShowType('card')}
         >
           Card
@@ -93,8 +93,8 @@ const Home = () => {
       </div>
 
       <div className='flex justify-between items-center'>
-        <h2 className='text-3xl my-6'>Books List</h2>
-        <Link to='/books/create' className='text-sky-800 text-4xl'>
+        <h2 className='text-3xl font-style: italic my-6'>Books List 📒</h2>
+        <Link to='/books/create' className='!text-white  text-4xl'>
           +
         </Link>
       </div>
